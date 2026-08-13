@@ -52,12 +52,6 @@ K3s · Kustomize · GitLab-CI · Prometheus · Argo Rollouts · NetworkPolicy | 
 | **CI/CD 思想** | GitLab CI (流水线定义), Argo Rollouts (金丝雀理念) |
 | **开发语言** | Python (Flask), Shell Script |
 
-## 💡 面试亮点（30 分钟讲述素材）
-1. **从 0 到 1**：手写 Flask 代码并打包成镜像，理解容器化本质。
-2. **GitOps 实践**：通过 Kustomize 实现声明式环境管理，通过脚本模拟了完整的“提交→构建→部署”链路。
-3. **SRE 核心能力**：构建了“拨测→指标采集→可视化”的内部可观测性闭环，不依赖外部 Blackbox。
-4. **排障经验**：解决了 K3s 环境下 containerd 镜像拉取失败（配置 `registries.yaml`）、Python 容器日志缓冲（使用 `python -u`）以及 Prometheus Operator 证书挂载等问题。
-
 ## 📝 如何快速验证
 请参考 `docs/setup-guide.md` 完成集群初始化后，依次执行：
 ```bash

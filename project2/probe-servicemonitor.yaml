@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: probe-agent
+  namespace: monitoring
+  labels:
+    app: probe-agent
+spec:
+  selector:
+    matchLabels:
+      app: probe-agent
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics

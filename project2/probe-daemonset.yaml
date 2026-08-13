@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: probe-agent
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: probe-agent
+  template:
+    metadata:
+      labels:
+        app: probe-agent
+    spec:
+      serviceAccountName: probe-agent-sa
+      nodeSelector:
+        kubernetes.io/hostname: k3s-master
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+      containers:
+      - name: probe
+        image: probe-agent:v1
+        env:
+        - name: METRICS_PORT
+          value: "9102"
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: probe-agent-sa
+  namespace: monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: probe-agent-role
+rules:
+- apiGroups: [""]
+  resources: ["services", "endpoints", "pods"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: probe-agent-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: probe-agent-role
+subjects:
+- kind: ServiceAccount
+  name: probe-agent-sa
+  namespace: monitoring

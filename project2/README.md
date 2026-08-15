@@ -1,7 +1,7 @@
 # 项目二：K8s 集群服务网络质量拨测系统
 
 ## 项目概述
-一句话说清楚：写了个 DaemonSet 部署的 Python Agent，通过 K8s API 自动发现 Service，做 TCP 探测，暴露 Prometheus 指标。
+通过 DaemonSet 部署的 Python Agent，通过 K8s API 自动发现 Service，做 TCP 探测，暴露 Prometheus 指标。
 
 ## 技术栈
 Python + kubernetes-client + prometheus-client + DaemonSet + Prometheus

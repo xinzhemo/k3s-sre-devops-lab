@@ -45,11 +45,11 @@ def probe_target(target):
             PROBE_LATENCY.labels(target['name'], target['pod']).set(latency)
             print(f"✓ {target['name']} ({target['pod']}) - {latency:.1f}ms")
         else:
-            PROBE_FAILURE.labels(target['name'], target['pod'], reason=f"connect_failed_{result}").inc()
+            PROBE_FAILURE.labels(target=target["name"], pod=target["pod"], reason=f"connect_failed_{result}").inc()
             print(f"✗ {target['name']} ({target['pod']}) - failed: {result}")
         sock.close()
     except Exception as e:
-        PROBE_FAILURE.labels(target['name'], target['pod'], reason=str(e)).inc()
+        PROBE_FAILURE.labels(target=target["name"], pod=target["pod"], reason=str(e)).inc()
         print(f"✗ {target['name']} ({target['pod']}) - error: {e}")
 
 def main():

@@ -6,14 +6,12 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: demo
+      app: myapp
   policyTypes:
   - Ingress
   ingress:
   - from:
-    - namespaceSelector:
-        matchLabels:
-          kubernetes.io/metadata.name: monitoring
+    - podSelector: {}
     ports:
     - protocol: TCP
       port: 5000

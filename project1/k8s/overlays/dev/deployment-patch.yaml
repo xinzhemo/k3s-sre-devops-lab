@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: myapp
+        image: demo-app:v1
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ENV
+          value: "dev"

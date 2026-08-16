@@ -34,5 +34,4 @@ kubectl apply -f policies/allow-demo-app.yaml -n dev
 # 查看策略
 kubectl get networkpolicy -n dev
 
-# 测试（预期失败）
-kubectl run test --image=busybox --rm -it -n dev -- wget -qO- --timeout=3 http://myapp:5000/
+

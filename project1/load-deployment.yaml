@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-generator
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: load-generator
+  template:
+    metadata:
+      labels:
+        app: load-generator
+    spec:
+      nodeName: k3s-master
+      containers:
+      - name: loader
+        image: busybox
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do :; done"]
+        resources:
+          requests:
+            cpu: 50m
+          limits:
+            cpu: 200m

@@ -1,0 +1,6 @@
+kubectl-argo-rollouts-linux-amd64
+*.tar
+.git
+.gitignore
+*.md
+local-ci.sh

@@ -1,15 +1,15 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: myapp-hpa
+  name: load-hpa
   namespace: dev
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: myapp
-  minReplicas: 2
-  maxReplicas: 6
+    name: load-generator
+  minReplicas: 1
+  maxReplicas: 3
   metrics:
   - type: Resource
     resource:
@@ -17,6 +17,3 @@ spec:
       target:
         type: Utilization
         averageUtilization: 50
-  behavior:
-    scaleDown:
-      stabilizationWindowSeconds: 300

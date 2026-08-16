@@ -21,7 +21,7 @@
 ![NetworkPolicy 列表](./screenshots/netpolicy.jpg)
 
 ### deny-all 阻断流量
-![deny-all 阻断访问](./screenshots/deny-all-blocked.jpg)
+![deny-all 阻断访问](./screenshots/03-deny-all-blocked.jpg)
 
 ### allow 策略生效
 ![allow 策略验证成功](./screenshots/allow-policy-success.jpg)

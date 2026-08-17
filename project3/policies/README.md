@@ -6,25 +6,27 @@
 
 > **注意**：K3s 默认 CNI（Flannel）不支持 NetworkPolicy，需切换至 Calico。
 
-## 核心能力
+## 🎯 核心功能
 
-### 1. 策略设计
+- **CNI 迁移**：从 K3s 默认 Flannel 迁移至 Calico
+- **默认拒绝**：deny-all 策略，零信任网络模型
+- **精细化放行**：只允许 monitoring namespace 访问 dev 环境的 demo-app
+- **故障演练**：
+  - 场景1：错误策略导致服务中断 → 定位 → 恢复
+  - 场景2：数据库访问隔离（只允许特定 Pod 访问）
 
-| 策略 | 作用 |
-| :--- | :--- |
-| `deny-all` | 默认拒绝所有入站流量 |
-| `allow-demo-app` | 白名单放行特定应用访问 |
+## 📸 验证截图
 
-### 2. 故障演练场景
+### NetworkPolicy 资源列表
+![NetworkPolicy 列表](./screenshots/netpolicy.jpg)
 
-| 场景 | 操作 | 观测方式 |
-| :--- | :--- | :--- |
-| 策略误配置 | 写错 selector | 项目二拨测告警触发 |
-| 恢复放行 | 修正策略 | 告警恢复 |
+### deny-all 阻断流量
+![deny-all 阻断访问](./screenshots/03-deny-all-blocked.jpg)
 
-## 快速开始
+### allow 策略生效
+![allow 策略验证成功](./screenshots/allow-policy-success.jpg)
 
-```bash
+
 # 应用策略
 kubectl apply -f policies/deny-all.yaml -n dev
 kubectl apply -f policies/allow-demo-app.yaml -n dev
@@ -32,5 +34,4 @@ kubectl apply -f policies/allow-demo-app.yaml -n dev
 # 查看策略
 kubectl get networkpolicy -n dev
 
-# 测试（预期失败）
-kubectl run test --image=busybox --rm -it -n dev -- wget -qO- --timeout=3 http://myapp:5000/
+

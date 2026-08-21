@@ -1,23 +1,23 @@
-Project 1：基于 K3s GitOps 微服务持续交付平台
-```
-📌 项目介绍
-针对传统交付模式存在的 多环境配置混乱、手动部署易错、版本发布风险高、无法灰度、资源无法自适应流量 等问题，模拟企业微服务研发交付与运维完整场景,基于轻量生产级 K3s 集群搭建一套 GitOps 全自动持续交付体系。
+# Project 1：基于 K3s GitOps 微服务持续交付平台
+
+## 📌 项目介绍
+针对传统交付模式存在的多环境配置混乱、手动部署易错、版本发布风险高、无法灰度、资源无法自适应流量等问题，模拟企业微服务研发交付与运维完整场景，基于轻量生产级 K3s 集群搭建一套 GitOps 全自动持续交付体系。
+
 项目整合 Kustomize 多环境配置治理、GitHub Actions 持续构建、ArgoCD 自动部署、Argo Rollouts 金丝雀灰度发布、HPA 弹性伸缩，完整实现从代码提交、镜像构建、自动部署、灰度上线到弹性运维的全链路工程化能力。
-```
-🛠 技术栈
-表格
-分类	技术
-业务服务	Python Flask
-容器技术	Docker、K3s containerd
-编排与配置	K3s、Kustomize
-持续集成	GitHub Actions
-持续交付	ArgoCD（GitOps 自动同步、配置自愈、资源修剪）
-灰度发布	Argo Rollouts（金丝雀渐进式发布）
-弹性运维	Kubernetes HPA 自动扩缩容
-```
-📁 项目目录结构
-plaintext
-```
+
+## 🛠 技术栈
+| 分类 | 技术 |
+| ---- | ---- |
+| 业务服务 | Python Flask |
+| 容器技术 | Docker、K3s containerd |
+| 编排与配置 | K3s、Kustomize |
+| 持续集成 | GitHub Actions |
+| 持续交付 | ArgoCD（GitOps 自动同步、配置自愈、资源修剪） |
+| 灰度发布 | Argo Rollouts（金丝雀渐进式发布） |
+| 弹性运维 | Kubernetes HPA 自动扩缩容 |
+
+## 📁 项目目录结构
+```plaintext
 project1/
 ├── app/                                   # 微服务业务源码与镜像构建
 │   ├── app.py                             # 主服务，提供健康检查能力
@@ -42,7 +42,6 @@ project1/
 ├── screenshots/                           # 项目效果截图
 ├── local-ci.sh                            # 本地 CI 模拟脚本
 └── README.md
-```
 ✨ 核心项目能力
 1. 标准化多环境配置治理
 使用 Kustomize base + overlays 架构，实现配置复用 + 环境解耦。
@@ -97,24 +96,13 @@ kubectl apply -f manifests/hpa.yaml
 kubectl apply -f manifests/load-deployment.yaml
 📷 项目效果展示
 集群与环境状态
-
 服务与配置验证
-
 CI/CD 自动化效果
-
 金丝雀灰度发布
-
 HPA 弹性伸缩效果
-
 🔧 项目难点与解决方案
 K3s 无法识别 Docker 镜像：通过 docker save + ctr import 手动导入镜像，适配 K3s containerd 运行时。
 Python 容器日志不输出：开启无缓冲启动参数，解决日志缓冲区导致的日志缺失问题。
 ArgoCD 拉取 GitHub 超时：将 HTTPS 协议替换为 SSH 部署密钥，提升同步稳定性。
 金丝雀发布暂停卡住：熟悉 Rollouts 发布生命周期，手动 promote 推进灰度流程。
 CI 镜像推送失败：配置 DockerHub 密钥认证，实现流水线自动鉴权推送。
-
-📎 参考文档
-ArgoCD 官方文档
-Argo Rollouts 官方文档
-Kustomize 官方文档
-K3s 官方文档

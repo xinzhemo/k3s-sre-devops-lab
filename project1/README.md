@@ -14,6 +14,7 @@ Project 1：基于 K3s GitOps 微服务持续交付平台
 弹性运维	Kubernetes HPA 自动扩缩容
 📁 项目目录结构
 plaintext
+```
 project1/
 ├── app/                                   # 微服务业务源码与镜像构建
 │   ├── app.py                             # 主服务，提供健康检查能力
@@ -38,6 +39,7 @@ project1/
 ├── screenshots/                           # 项目效果截图
 ├── local-ci.sh                            # 本地 CI 模拟脚本
 └── README.md
+```
 ✨ 核心项目能力
 1. 标准化多环境配置治理
 使用 Kustomize base + overlays 架构，实现配置复用 + 环境解耦。

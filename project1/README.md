@@ -18,30 +18,33 @@
 
 ## 📁 项目目录结构
 ```plaintext
-project1/
-├── app/                                   # 微服务业务源码与镜像构建
-│   ├── app.py                             # 主服务，提供健康检查能力
-│   ├── Dockerfile                         # 容器构建脚本
-│   └── requirements.txt                   # Python依赖管理
-├── k8s/                                   # Kustomize 业务资源（GitOps 核心配置）
-│   ├── base/                              # 全环境通用基础配置
-│   │   ├── deployment.yaml
-│   │   ├── service.yaml
-│   │   └── kustomization.yaml
-│   └── overlays/                          # 多环境差异化配置
-│       ├── dev/                           # 开发环境（低配置、迭代环境）
-│       └── staging/                       # 预发布环境（准生产、灰度验证）
-├── manifests/                             # 组件安装与运维资源清单
-│   ├── install.yaml                       # ArgoCD 安装文件
-│   ├── argocd-application.yaml            # GitOps 同步规则
-│   ├── argo-rollouts-install.yaml         # 灰度组件安装
-│   ├── rollout.yaml                       # 金丝雀发布策略
-│   ├── hpa.yaml                           # 弹性伸缩规则
-│   └── load-deployment.yaml               # 压测负载
-├── .github/workflows/                     # CI 自动构建流水线
-├── screenshots/                           # 项目效果截图
-├── local-ci.sh                            # 本地 CI 模拟脚本
-└── README.md
+仓库根目录
+├── .github/workflows/                     # CI自动构建流水线（仓库根目录，GitHub识别）
+│   └── ci.yml
+├── docs/
+└── project1/                              # 项目源码目录
+    ├── app/                                   # 微服务业务源码与镜像构建
+    │   ├── app.py                             # 主服务，提供健康检查能力
+    │   ├── Dockerfile                         # 容器构建脚本
+    │   └── requirements.txt                   # Python依赖管理
+    ├── k8s/                                   # Kustomize 业务资源（GitOps 核心配置）
+    │   ├── base/                              # 全环境通用基础配置
+    │   │   ├── deployment.yaml
+    │   │   ├── service.yaml
+    │   │   └── kustomization.yaml
+    │   └── overlays/                          # 多环境差异化配置
+    │       ├── dev/                           # 开发环境（低配置、迭代环境）
+    │       └── staging/                       # 预发布环境（准生产、灰度验证）
+    ├── manifests/                             # 组件安装与运维资源清单
+    │   ├── install.yaml                       # ArgoCD 安装文件
+    │   ├── argocd-application.yaml            # GitOps 同步规则
+    │   ├── argo-rollouts-install.yaml         # 灰度组件安装
+    │   ├── rollout.yaml                       # 金丝雀发布策略
+    │   ├── hpa.yaml                           # 弹性伸缩规则
+    │   └── load-deployment.yaml               # 压测负载
+    ├── screenshots/                           # 项目效果截图
+    ├── local-ci.sh                            # 本地 CI 模拟脚本
+    └── README.md
 ✨ 核心项目能力
 1. 标准化多环境配置治理
 使用 Kustomize base + overlays 架构，实现配置复用 + 环境解耦。

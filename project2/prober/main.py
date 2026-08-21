@@ -38,6 +38,8 @@ def run_probe_loop():
                     logger.warning(f"✗ {t['name']} - timeout")
             
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             logger.error(f"Probe loop error: {e}")
         
         time.sleep(PROBE_INTERVAL)

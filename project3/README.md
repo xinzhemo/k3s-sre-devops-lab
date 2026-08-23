@@ -96,18 +96,41 @@ mirrors:
 EOF
 sudo systemctl restart k3s
 
-应用 NetworkPolicy
+# 🚀 部署指南
+
+## 配置镜像加速（关键步骤）
+
+```bash
+sudo tee -a /etc/rancher/k3s/registries.yaml << 'EOF'
+mirrors:
+  docker.io:
+    endpoint:
+      - "https://registry.cn-hangzhou.aliyuncs.com"
+      - "https://docker.m.daocloud.io"
+EOF
+sudo systemctl restart k3s
+```
+
+## 应用 NetworkPolicy
+
+```bash
 kubectl apply -f policies/deny-all.yaml
 kubectl apply -f policies/allow-demo-app.yaml
+```
 
-验证策略
+## 验证策略
+
+```bash
 # 从 monitoring 访问（应该成功）
 kubectl run test-pod --image=busybox -n monitoring --rm -it --restart=Never -- wget -O- http://dev-demo-service.dev.svc.cluster.local:80/health
 
 # 从 staging 访问（应该被拒绝）
 kubectl run test-pod --image=busybox -n staging --rm -it --restart=Never -- wget -O- --timeout=2 http://dev-demo-service.dev.svc.cluster.local:80/health
+```
 
-安装 Nginx Ingress
+## 安装 Nginx Ingress
+
+```bash
 helm install ingress-nginx ingress-nginx/ingress-nginx \
   -n ingress-nginx --create-namespace \
   --set controller.image.repository=registry.aliyuncs.com/google_containers/nginx-ingress-controller \
@@ -118,34 +141,40 @@ helm install ingress-nginx ingress-nginx/ingress-nginx \
   --set controller.service.type=NodePort \
   --set admissionWebhooks.enabled=false \
   --set admissionWebhooks.patch.enabled=false
+```
 
-创建 Ingress 规则
+## 创建 Ingress 规则
+
+```bash
 kubectl apply -f ingress.yaml
+```
 
-验证访问
+## 验证访问
+
+```bash
 NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
 curl -H "Host: demo.staging.local" http://${NODE_IP}:30080/health
 # 预期返回: OK
-
-
----
-🔧 技术要点
-挑战
-解决方案
-Calico pause 镜像拉取失败
-配置 registries.yaml 阿里云镜像加速
-NetworkPolicy 阻断 DNS 解析
-放行 kube‑dns UDP 53 端口
-Nginx Ingress webhook 镜像拉不到
-禁用 admission webhook
-Ingress 创建时 webhook 调用失败
-删除残留的 ValidatingWebhookConfiguration
-策略指向错误的命名空间
-确认 Service 所在命名空间，重新创建 Ingress
+```
 
 ---
-📎 相关文档
-- https://docs.tigera.io/calico/latest/about/
-- https://kubernetes.io/docs/concepts/services-networking/network-policies/
-- https://kubernetes.github.io/ingress-nginx/
-- https://www.tcpdump.org/
+
+# 🔧 技术要点
+
+| 挑战 | 解决方案 |
+|------|----------|
+| Calico pause 镜像拉取失败 | 配置 registries.yaml 阿里云镜像加速 |
+| NetworkPolicy 阻断 DNS 解析 | 放行 kube-dns UDP 53 端口 |
+| Nginx Ingress webhook 镜像拉不到 | 禁用 admission webhook |
+| Ingress 创建时 webhook 调用失败 | 删除残留的 ValidatingWebhookConfiguration |
+| 策略指向错误的命名空间 | 确认 Service 所在命名空间，重新创建 Ingress |
+
+---
+
+# 📎 相关文档
+
+- [Calico 官方文档](https://docs.tigera.io/calico/latest/about/)
+- [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
+- [Ingress-Nginx 官方文档](https://kubernetes.github.io/ingress-nginx/)
+- [tcpdump 官网](https://www.tcpdump.org/)
+

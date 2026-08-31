@@ -30,11 +30,11 @@ def run_probe_loop():
             for t in targets:
                 success, latency = probe_target(t, PROBE_TIMEOUT)
                 if success:
-                    PROBE_SUCCESS.labels(t['name'], t['pod']).inc()
-                    PROBE_LATENCY.labels(t['name'], t['pod']).set(latency)
+                    PROBE_SUCCESS.labels(target_service=t['name'], target_pod=t['pod']).inc()
+                    PROBE_LATENCY.labels(target_service=t['name'], target_pod=t['pod']).set(latency)
                     logger.debug(f"✓ {t['name']} - {latency:.2f}ms")
                 else:
-                    PROBE_FAILURE.labels(t['name'], t['pod'], reason="timeout").inc()
+                    PROBE_FAILURE.labels(target_service=t['name'], target_pod=t['pod'], reason="timeout").inc()
                     logger.warning(f"✗ {t['name']} - timeout")
             
         except Exception as e:

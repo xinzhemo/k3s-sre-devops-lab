@@ -1,0 +1,37 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: slo-alerts
+  namespace: monitoring
+  labels:
+    app: kube-prometheus-stack
+spec:
+  groups:
+  - name: slo
+    rules:
+    # 错误预算消耗过快告警
+    - alert: ErrorBudgetBurn
+      expr: |
+        (
+          sum(rate(tcp_probe_failure_total[5m]))
+          /
+          sum(rate(tcp_probe_success_total[5m]) + rate(tcp_probe_failure_total[5m]))
+        ) > 0.005
+      for: 5m
+      labels:
+        severity: warning
+        team: sre
+      annotations:
+        summary: "错误预算消耗过快"
+        description: "探测失败率 {{ $value | humanizePercentage }}，超过 SLO 阈值 0.5%，请关注服务稳定性。"
+    # 服务完全不可用告警
+    - alert: ServiceDown
+      expr: |
+        sum by (target_service) (tcp_probe_success_total) == 0
+      for: 1m
+      labels:
+        severity: critical
+        team: sre
+      annotations:
+        summary: "服务完全不可用"
+        description: "服务 {{ $labels.target_service }} 所有探测目标均失败，请立即处理。"

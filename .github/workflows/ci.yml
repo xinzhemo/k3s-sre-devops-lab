@@ -24,7 +24,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./project1
+          context: ./project1/app
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/demo-app:latest,${{ secrets.DOCKER_USERNAME }}/demo-app:${{ github.sha }}
       - name: Scan image with Trivy

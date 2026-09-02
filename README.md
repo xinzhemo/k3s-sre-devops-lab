@@ -158,14 +158,14 @@ k3s-sre-devops-lab/
 *100% 流量切换完成，服务健康*
 
 ### 拨测指标采集（项目二）
-![Prometheus 拨测指标](./screenshots/prometheus-metrics.jpg)
+![Prometheus 拨测指标](./project2/screenshots/prometheus-metrics.jpg)
 *拨测 Agent 暴露 tcp_probe_success_total 和 tcp_probe_latency_ms 指标*
 
 ### 网络隔离 + Ingress 验证（项目三）
-![NetworkPolicy 放行](./screenshots/allow-policy-success.jpg)
+![NetworkPolicy 放行](./project3/screenshots/allow-policy-success.jpg)
 *monitoring 命名空间成功访问 dev-demo-service，NetworkPolicy 生效*
 
-![tcpdump 抓包验证 Ingress 流量](./screenshots/tcpdump-ingress.png)
+![tcpdump 抓包验证 Ingress 流量](./project3/screenshots/tcpdump-ingress.png)
 *tcpdump 抓包确认 Ingress → Service → Pod 流量路径完整*
 
 ## 🔧 环境部署要求

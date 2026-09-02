@@ -148,6 +148,26 @@ k3s-sre-devops-lab/
 
 ---
 
+## 📸 验证截图
+
+### 金丝雀发布（项目一）
+![金丝雀 20% 流量切换](./project1/screenshots/canary-20-percent.jpg)
+*20% 流量切换至新版本，金丝雀发布进行中*
+
+![金丝雀全量发布完成](./project1/screenshots/rollout-healthy.jpg)
+*100% 流量切换完成，服务健康*
+
+### 拨测指标采集（项目二）
+![Prometheus 拨测指标](./screenshots/prometheus-metrics.jpg)
+*拨测 Agent 暴露 tcp_probe_success_total 和 tcp_probe_latency_ms 指标*
+
+### 网络隔离 + Ingress 验证（项目三）
+![NetworkPolicy 放行](./screenshots/allow-policy-success.jpg)
+*monitoring 命名空间成功访问 dev-demo-service，NetworkPolicy 生效*
+
+![tcpdump 抓包验证 Ingress 流量](./screenshots/tcpdump-ingress.png)
+*tcpdump 抓包确认 Ingress → Service → Pod 流量路径完整*
+
 ## 🔧 环境部署要求
 
 适配企业测试/预发环境标准，硬件与软件环境要求如下：
